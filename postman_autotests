@@ -1,0 +1,20 @@
+pm.test("Проверка статуса 200", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Ожидаемое время ответа меньше 999ms", function () {
+    pm.expect(pm.response.responseTime).to.be.below(999);
+});
+
+var jsonData = pm.response.json();
+pm.collectionVariables.set("pokemon_id", jsonData.id);
+
+pm.test("Check residents", function() {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData.residents).to.include("https://swapi.py4e.com/api/people/30/");
+});
+
+pm.test("Check rotation period", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData.rotation_period).to.eql("24");
+});
